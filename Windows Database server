@@ -1,0 +1,61 @@
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  tasks:
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+     resource_group: zuyrg00007
+     allocation_method: Static
+     name: myPublicIPWIN
+    register: output_ip_address
+  - name: Dump public IP for VM which will be created
+    debug:
+     msg: "The public IP is {{ output_ip_address.state.ip_address }}."
+  - name: Create Network Security Group that allows RDP
+    azure_rm_securitygroup:
+     resource_group: zuyrg00007
+     name: myNetworkSecurityGroupWIN
+     rules:
+       - name: RDP
+         protocol: Tcp
+         destination_port_range: 3389
+         access: Allow
+         priority: 1001
+         direction: Inbound
+       - name: WINRM
+         protocol: Tcp
+         destination_port_range: 5986
+         access: Allow
+         priority: 1010
+         direction: Inbound
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+     resource_group: zuyrg00007
+     name: myNICWIN
+     virtual_network: Vnet_Wandel_App
+     subnet: Backend_subnet
+     public_ip_name: myPublicIPWIN
+     security_group: myNetworkSecurityGroupWIN
+     register: output_private_ip_address
+  - name: Dump private IP for WM which will be created
+    debug:
+     msg: "The private IP is {{ output_private_ip_address.state.ip_address }}"
+  - name: Create VM
+    azure_rm_virtualmachine:
+     resource_group: zuyrg00007
+     name: windatabasesvr
+     location: westeurope
+     vm_size: Standard_B2s
+     admin_username: azureuser
+     admin_password: Test123!!
+#      ssh_password_enabled: false
+#      ssh_public_keys:
+#        - path: /home/azureuser/.ssh/authorized_keys
+#          key_data: <your-key-data>
+     network_interfaces: myNICWIN
+     os_type: Windows
+     image:
+       offer: WindowsServer
+       publisher: MicrosoftWindowsServer
+       sku: '2016-Datacenter'
+       version: latest
