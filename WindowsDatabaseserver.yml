@@ -33,13 +33,13 @@
      resource_group: zuyrg00007
      name: myNICWIN
      virtual_network: Vnet_Wandel_App
-     subnet: Backend_subnet
-     public_ip_name: myPublicIPWIN
+     subnet_name: Backend_subnet
+     public_ip_address_name: myPublicIPWIN
      security_group: myNetworkSecurityGroupWIN
-     register: output_private_ip_address
-  - name: Dump private IP for VM which will be created
-    debug:
-     msg: "The private IP is {{ output_private_ip_address.state.ip_address }}"
+    register: privateip
+  #- name: Dump private IP for VM which will be created
+  #  debug:
+   #  msg: "The private IP is {{ privateip.state.private_ip_address }}"
   - name: Create VM
     azure_rm_virtualmachine:
      resource_group: zuyrg00007
