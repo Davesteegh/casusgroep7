@@ -1,0 +1,58 @@
+---
+
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - test_vars.yml
+
+  tasks:
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: "{{ resource_group_name }}"
+      allocation_method: Static
+      name: "{{ public_ip_address_name }}"
+    register: output_ip_address
+  - name: Dump public IP for VM which will be created
+    debug:
+      msg: "The public IP is {{ output_ip_address.state.ip_address }}."
+  - name: Create Network Security Group that allows RDP
+    azure_rm_securitygroup:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ network_security_group_name }}"
+      rules:
+        - name: RDP
+          protocol: Tcp
+          destination_port_range: 3389
+          access: Allow
+          priority: 1001
+          direction: Inbound
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ network_card_name }}"
+      virtual_network: "{{ virtual_network_name }}"
+      subnet: "{{ subnet_name }}"
+      public_ip_name: "{{ public_ip_address_name }}"
+      security_group: "{{ network_security_group_name }}"
+  - name: Create VM
+    azure_rm_virtualmachine:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ vm_name }}"
+      location: westeurope
+      vm_size: Standard_B2s
+      managed_disk_type: Premium_LRS
+      admin_username: "{{ admin_username }}"
+      admin_password: "{{ admin_password }}"
+  #      ssh_password_enabled: false
+  #      ssh_public_keys:
+  #        - path: /home/azureuser/.ssh/authorized_keys
+  #          key_data: <your-key-data>
+      network_interfaces: "{{ network_card_name }}"
+      os_type: Windows
+      image:
+        offer: WindowsServer
+        publisher: MicrosoftWindowsServer
+        sku: '2016-Datacenter'
+        version: latest
