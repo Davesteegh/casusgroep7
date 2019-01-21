@@ -1,0 +1,28 @@
+---
+
+- name: Create NSG allows RDP
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: Create Network Security Group that allows RDP
+    azure_rm_securitygroup:
+     resource_group: zuyrg00007
+     name: NSG_allowing_RDP
+     rules:
+       - name: RDP
+         protocol: Tcp
+         destination_port_range: 3389
+         access: Allow
+#        source_address_prefix: "10.0.1.0/24"
+         priority: 1001
+         direction: Inbound
+
+       - name: WINRM
+         protocol: Tcp
+         destination_port_range: 5986
+         access: Allow
+#        source_address_prefix: "10.0.1.0/24"
+         priority: 1010
+         direction: Inbound
