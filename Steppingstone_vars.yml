@@ -1,0 +1,9 @@
+resource_group_name: zuyrg00007
+public_ip_address_name: Stepping_Stone_PIP_2
+network_security_group_name: Stepping_Stone_NSG
+network_card_name: Stepping_Stone_NIC
+virtual_network_name: Vnet_Wandel_App
+subnet_name: Frontend_Subnet
+vm_name: SteppingStoneVM
+admin_username: DaveSteegh
+admin_password: Test123!!
