@@ -1,0 +1,4 @@
+---
+- hosts: mssql
+  roles:
+    - { role: lifeofguenter.mssql}

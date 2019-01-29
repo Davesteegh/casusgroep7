@@ -1,0 +1,5 @@
+---
+
+- hosts: Appserver
+  roles:
+    - ocha.dotnet-core

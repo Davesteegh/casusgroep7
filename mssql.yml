@@ -1,0 +1,48 @@
+---
+
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+
+  tasks:
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: zuyrg00007
+      allocation_method: Dynamic
+      name: mssql-pip
+    register: output_ip_address
+
+  - name: Dump public IP for VM which will be created
+    debug:
+      msg: "The public IP is {{ output_ip_address.state.ip_address }}."
+
+  - name: Create virtual network interface card
+    azure_rm_networkinterface:
+      resource_group: zuyrg00007
+      name: mssql-nic
+      virtual_network: Vnet_Wandel_App
+      subnet: Backend_subnet
+      public_ip_name: mssql-pip
+      security_group: Backend-nsg
+      register: NIC_log
+
+  - name: Create VM
+    azure_rm_virtualmachine:
+      resource_group: zuyrg00007
+      name: mssql
+      location: westeurope
+      vm_size: Standard_B1s
+      admin_username: Admingroep7
+      admin_password: Test123!!
+      managed_disk_type: Premium_LRS
+      ssh_password_enabled: false
+      ssh_public_keys:
+        - path: /home/Admingroep7/.ssh/authorized_keys
+          key_data: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAi1f9Tg2M1jsxYfG3edYJIIpaxN3SPeWUkSzKhNdxu2/C2c5cxnV+hdxAt//D378C8Dg9gm7KiFEWNCzfvSp1G0dlJsQM8ss25JyA/lCs4OmsMciZ4AjlWpz995uB4E84RgyXMPEeDoUe0ddNQcTDbZi+Op6mtnWKsMEt3klshgT/GqZ6E9sdGtT4BdDj+RVSrNfmQULHqQKTLtebpurqG8sMMcjUZhBzEkR65YxKd59zWtQmbdCKygQ+MvWMMzcPxPP1QAAAA8g+5JHT+IOL6I2hqr7FKRp/Wxk4EZu63WuTfw+Wv2z89+ev+sizefiUdO3y5X+ClBSae46AloinNQ== rsa-key-20190129"
+      network_interfaces: mssql-nic
+      image:
+        offer: UbuntuServer
+        publisher: Canonical
+        sku: '16.04-LTS'
+        version: latest
