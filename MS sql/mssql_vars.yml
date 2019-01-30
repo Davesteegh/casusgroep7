@@ -1,0 +1,7 @@
+resource_group_name: zuyrg00007
+network_card_name: mssql-nic
+virtual_network_name: Vnet_Wandel_App
+ip_config: Appserver
+subnet_name: Backend_subnet
+vm_name: mssql
+admin_username: admingroep7
