@@ -1,0 +1,26 @@
+---
+
+- name: Create Vnet met Subnets
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: Create virtual network
+    azure_rm_virtualnetwork:
+      resource_group: zuyrg00007
+      name: Vnet_Wandel_App
+      address_prefixes: "10.0.1.0/24"
+  - name: Add Backend subnet
+    azure_rm_subnet:
+      resource_group: zuyrg00007
+      name: Backend_subnet
+      address_prefix: "10.0.1.0/25"
+      virtual_network: Vnet_Wandel_App
+
+  - name: Add Frontend subnet
+    azure_rm_subnet:
+      resource_group: zuyrg00007
+      name: Frontend_subnet
+      address_prefix: "10.0.1.128/26"
+      virtual_network: Vnet_Wandel_App
