@@ -1,4 +1,5 @@
 admin_password_stepping: Test123!!
 admin_password_controller: Test123!!
 admin_password_appserver: Test123!!
+admin_password_mssql: Test123!!
 ssh_key_app: "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAi1f9Tg2M1jsxYfG3edYJIIpaxN3SPeWUkSzKhNdxu2/C2c5cxnV+hdxAt//D378C8Dg9gm7KiFEWNCzfvSp1G0dlJsQM8ss25JyA/lCs4OmsMciZ4AjlWpz995uB4E84RgyXMPEeDoUe0ddNQcTDbZi+Op6mtnWKsMEt3klshgT/GqZ6E9sdGtT4BdDj+RVSrNfmQULHqQKTLtebpurqG8sMMcjUZhBzEkR65YxKd59zWtQmbdCKygQ+MvWMMzcPxPP1QAAAA8g+5JHT+IOL6I2hqr7FKRp/Wxk4EZu63WuTfw+Wv2z89+ev+sizefiUdO3y5X+ClBSae46AloinNQ== rsa-key-20190129"
