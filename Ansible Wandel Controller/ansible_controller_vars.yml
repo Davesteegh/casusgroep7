@@ -1,0 +1,8 @@
+resource_group_name: zuyrg00007
+public_ip_address_name: Wandel_Controller_PIB
+network_security_group_name: Controller_wandel_app_NSG
+network_card_name: Controller_wandel_app_NIC
+virtual_network_name: Vnet_Wandel_App
+subnet_name: Backend_Subnet
+vm_name: ControllerwandelappVM
+admin_username: admingroep7
