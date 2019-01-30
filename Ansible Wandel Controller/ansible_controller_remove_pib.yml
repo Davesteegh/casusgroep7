@@ -1,0 +1,15 @@
+---
+
+- name: Remove PIB ControllerwandelappVM
+  hosts: ControllerwandelappVM
+  connection: ssh
+  gather_facts: false
+  vars_file:
+    - ansible_controller_vars.yml
+
+  tasks:
+  - name: Remove PIB
+    azure_rm_publicipaddress:
+      resoucre_group: "{{ resource_group_name }}"
+      name: "{{ public_ip_address_name }}"
+      state: absent
