@@ -1,0 +1,9 @@
+resource_group_name: zuyrg00007
+public_ip_address_name: Appserver-pip
+network_security_group_name: Frontend-nsg
+network_card_name: Appserver-nic
+virtual_network_name: Vnet_Wandel_App
+ip_config: Appserver
+subnet_name: Frontend_subnet
+vm_name: Appserver01
+admin_username: admingroep7
