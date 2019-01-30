@@ -1,0 +1,53 @@
+---
+
+- name: Create Azure VM
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars_files:
+    - ansible_controller_vars.yml
+    - vault.yml
+  no_log: true
+
+
+  tasks:
+  - name: Create public IP address
+    azure_rm_publicipaddress:
+      resource_group: "{{ resource_group_name }}"
+      allocation_method: Dynamic
+      name: "{{ public_ip_address_name }}"
+
+  - name: Create Network Security Group that allows SSH
+    azure_rm_securitygroup:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ network_security_group_name }}"
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: 22
+          access: Allow
+          priority: 1001
+          direction: Inbound
+  - name: Create virtual network inteface card
+    azure_rm_networkinterface:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ network_card_name }}"
+      virtual_network: "{{ virtual_network_name }}"
+      subnet: "{{ subnet_name }}"
+      security_group: "{{ network_security_group_name }}"
+  - name: Create VM
+    azure_rm_virtualmachine:
+      resource_group: "{{ resource_group_name }}"
+      name: "{{ vm_name }}"
+      location: westeurope
+      vm_size: Standard_B1s
+      managed_disk_type: Premium_LRS
+      admin_username: "{{ admin_username }}"
+      admin_password: "{{ admin_password_controller }}"
+      network_interfaces: "{{ network_card_name }}"
+      os_type: Linux
+      image:
+        offer: UbuntuServer
+        publisher: Canonical
+        sku: '18.04-LTS'
+        version: latest
