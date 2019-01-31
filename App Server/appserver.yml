@@ -49,7 +49,7 @@
       ssh_public_keys:
         - path: /home/Admingroep7/.ssh/authorized_keys
           key_data: "{{ ssh_key_app }}"
-      network_interfaces: Appserver-nic
+      network_interfaces: "{{ network_card_name }}"
       image:
         offer: UbuntuServer
         publisher: Canonical

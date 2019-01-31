@@ -7,9 +7,11 @@
   
   tasks:
 
+  - name:
+
   - name: Add interface to loadbalancer backend address pool
     azure_rm_networkinterface:
-      name: app-server81
+      name: app-server-nic
       resource_group: zuyrg00007
       subnet_name: Frontend_subnet
       virtual_network: Vnet_Wandel_App
