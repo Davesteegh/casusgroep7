@@ -1,0 +1,5 @@
+- hosts: app
+  become: yes
+  become_user: root
+  roles:
+     - ocha.dotnet-core
