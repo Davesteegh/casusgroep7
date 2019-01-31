@@ -1,0 +1,74 @@
+---
+
+- name: Install Ansible
+  hosts: public ip machine
+  connection: ssh
+  become_user: yes
+  gather_facts: false
+  
+  tasks:
+  - name: Update APT package cache
+    apt: update_cache=yes cache_valid_time=600
+
+  - name: Upgrade APT to the latest packages
+    apt: upgrade=dist
+    register: apt_result
+
+#  - name: Reboot a machine that might have lots of updates to apply
+#    reboot:
+#      reboot_timeout: 3600
+
+  - name: Add ansible repo
+    apt_repository:
+      repo: ppa:ansible/ansible
+
+  - name: Install ansible 
+    apt: name=ansible update_cache=yes state=latest
+
+#  - name: Reboot a slow machine that might have lots of updates to apply
+#    reboot:
+#      reboot_timeout: 3600
+
+  - name: Install pre-requisite packages (libffi-dev)
+    apt: name=libffi-dev update_cache=yes state=latest
+
+  - name: Install pre-requisite packages (libssl-dev)
+    apt: name=libssl-dev update_cache=yes state=latest
+
+  - name: Install pre-requisite packages (python-dev)
+    apt: name=python-dev update_cache=yes state=latest
+
+  - name: Install ansible azure pip
+    pip:
+      name: ansible[azure]
+
+  - name: Create directory for azure credentials
+    file:
+      path: "~/.azure/"
+      state: directory
+
+  - name: Create file for azure credentials
+    file:
+      path: "~/.azure/credentials"
+      state: touch
+
+  - name: Copy credentials
+    copy:
+      src: "/etc/ansible/credentials"
+      dest: "~/.azure/credentials"
+
+  - name: Create a 2048-bit SSH key for user root
+    user:
+      name: root
+      generate_ssh_key: yes
+      ssh_key_bits: 2048
+      ssh_key_file: .ssh/id_rsa
+
+  - name: Copy public key to authorized keys
+    copy:
+      src: "/root/.ssh/id_rsa.pub"
+      dest: "/root/.ssh/authorized_keys"
+
+  - name: Install WINRM ansible package
+    pip:
+      name: pywinrm
