@@ -1,0 +1,40 @@
+---
+
+- name: Frontend NSG
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: Create Network Security Group that allows RDP and WINRM for the Fronend 
+    azure_rm_securitygroup:
+      resource_group: zuyrg00007
+      name: Frontend-NSG
+      rules:
+        - name: RDP
+          protocol: Tcp
+          destination_port_range: 3389
+          access: Allow
+          priority: 300
+          direction: Inbound
+
+        - name: WINRM
+          protocol: Tcp
+          destination_port_range: 5986
+          access: Allow
+          priority: 400
+          direction: Inbound
+
+        - name: HTTPS
+          protocol: Tcp
+          destination_port_range: 443
+          access: Allow
+          priority: 500
+          direction: Inbound
+
+        - name: Custom port
+          protocol: Tcp
+          destination_port_range: 5000
+          access: Allow
+          priority: 600
+          direction: Inbound
