@@ -1,13 +1,10 @@
 ---
 
-- name: test load
   hosts: localhost
   connection: local
   gather_facts: true
   
   tasks:
-
-  - name:
 
   - name: Add interface to loadbalancer backend address pool
     azure_rm_networkinterface:

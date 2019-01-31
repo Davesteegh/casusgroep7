@@ -1,0 +1,9 @@
+resource_group_name: zuyrg00007
+loadbalancer_name: loadbalancer-casus
+public_ip_name: loadbalancer-pip
+backend_pool_name: loadbalancer-backend-pool
+network_card_name: Appserver-nic
+frontend_subnet: Frontend_subnet
+virtual_network_name: Vnet_Wandel_App
+security_group_frontend: Frontend-nsg
+loadbalancingrule_name: loadbalancing-rules
