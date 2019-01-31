@@ -4,4 +4,4 @@ virtual_network_name: Vnet_Wandel_App
 ip_config: Appserver
 subnet_name: Backend_subnet
 vm_name: mssql
-admin_username: admingroep7
+admin_username: Admingroep7
