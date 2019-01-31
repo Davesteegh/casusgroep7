@@ -1,0 +1,40 @@
+---
+
+- name: Backend NSG
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+
+  - name: Create Network Security Group that allows SSH and WINRM for the Backend
+    azure_rm_securitygroup:
+      resource_group: zuyrg00007
+      name: Backend-NSG
+      rules:
+        - name: SSH
+          protocol: Tcp
+          destination_port_range: SSH
+          access: Allow
+          priority: 300
+          direction: Inbound
+
+        - name: WINRM
+          protocol: Tcp
+          destination_port_range: 5986
+          access: Allow
+          priority: 400
+          direction: Inbound
+
+        - name: Database port
+          protocol: Tcp
+          destination_port_range: 1433
+          access: Allow
+          priority: 500
+          direction: Inbound
+
+        - name: Database port 2 
+          protocol: Tcp
+          destination_port_range: 1434
+          access: Allow
+          priority: 500
+          direction: Inbound
