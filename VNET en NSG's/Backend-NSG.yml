@@ -25,14 +25,14 @@
           priority: 400
           direction: Inbound
 
-        - name: Database port
+        - name: Databaseport
           protocol: Tcp
           destination_port_range: 1433
           access: Allow
           priority: 500
           direction: Inbound
 
-        - name: Database port 2 
+        - name: Databaseport2 
           protocol: Tcp
           destination_port_range: 1434
           access: Allow
