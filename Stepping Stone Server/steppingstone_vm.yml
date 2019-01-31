@@ -19,17 +19,6 @@
   - name: Dump public IP for VM which will be created
     debug:
       msg: "The public IP is {{ output_ip_address.state.ip_address }}."
-  - name: Create Network Security Group that allows RDP
-    azure_rm_securitygroup:
-      resource_group: "{{ resource_group_name }}"
-      name: "{{ network_security_group_name }}"
-      rules:
-        - name: RDP
-          protocol: Tcp
-          destination_port_range: 3389
-          access: Allow
-          priority: 1001
-          direction: Inbound
   - name: Create virtual network inteface card
     azure_rm_networkinterface:
       resource_group: "{{ resource_group_name }}"
@@ -37,6 +26,7 @@
       virtual_network: "{{ virtual_network_name }}"
       subnet: "{{ subnet_name }}"
       public_ip_name: "{{ public_ip_address_name }}"
+      security_group: Frontend-nsg
       security_group: "{{ network_security_group_name }}"
   - name: Create VM
     azure_rm_virtualmachine:
