@@ -6,4 +6,4 @@ virtual_network_name: Vnet_Wandel_App
 ip_config: Appserver
 subnet_name: Frontend_subnet
 vm_name: Appserver01
-admin_username: admingroep7
+admin_username: Admingroep7
