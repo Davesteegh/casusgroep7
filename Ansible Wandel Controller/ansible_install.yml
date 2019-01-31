@@ -3,7 +3,8 @@
 - name: Install Ansible
   hosts: public ip machine
   connection: ssh
-  become_user: yes
+  become: true
+  user: root
   gather_facts: false
   
   tasks:
