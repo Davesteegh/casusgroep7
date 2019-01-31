@@ -13,7 +13,7 @@
       rules:
         - name: SSH
           protocol: Tcp
-          destination_port_range: SSH
+          destination_port_range: 22
           access: Allow
           priority: 300
           direction: Inbound
@@ -36,5 +36,5 @@
           protocol: Tcp
           destination_port_range: 1434
           access: Allow
-          priority: 500
+          priority: 600
           direction: Inbound
