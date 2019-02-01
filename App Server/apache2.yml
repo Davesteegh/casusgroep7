@@ -1,7 +1,7 @@
 ---
 
 - name: Install apache2
-  hosts: 10.0.1.134
+  hosts: app
   connection: ssh
   become: true
   user: root
