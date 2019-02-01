@@ -10,6 +10,6 @@
   tasks:
   - name: Remove PIB
     azure_rm_publicipaddress:
-      resoucre_group: "{{ resource_group_name }}"
+      resource_group: "{{ resource_group_name }}"
       name: "{{ public_ip_address_name }}"
       state: absent
