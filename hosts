@@ -1,0 +1,20 @@
+[local]
+127.0.0.1
+
+[mssql]
+10.0.1.6 ansible_connection=ssh ansible_ssh_user=database ansible_ssh_pass= "{{ admin_password_database }}"
+
+[stepping]
+10.0.1.132
+
+[stepping:vars]
+ansible_user=DaveSteegh
+ansible_password= "{{ admin_password_stepping }}"
+ansible_connection=winrm
+ansible_winrm_server_cert_validation=ignore
+
+[app]
+10.0.1.133 ansible_connection=ssh ansible_ssh_user=Admingroep7 ansible_ssh_pass= "{{ admin_password_appserver }}"
+
+[database]
+10.0.1.4 ansible_connection=ssh ansible_ssh_user=Admingroep7 ansible_ssh_pass= "{{admin_password_mssql }}"
